@@ -1,0 +1,61 @@
+{
+  "secoes": [
+    { "id": "bolsas", "nome": "Bolsas", "descricao": "Tote bags e bolsas artesanais feitas com retalhos de balão junino", "ordem": 1 },
+    { "id": "necessaires", "nome": "Necessaires", "descricao": "Necessaires coloridas e funcionais", "ordem": 2 },
+    { "id": "acessorios", "nome": "Acessórios", "descricao": "Carteiras, porta-documentos e pequenos acessórios", "ordem": 3 }
+  ],
+  "produtos": [
+    {
+      "id": "p001",
+      "nome": "Bolsa Patchwork Xadrez",
+      "secao": "bolsas",
+      "preco": 189.90,
+      "descricao": "Tote artesanal confeccionada à mão com retalhos de balão junino em padrão xadrez multicolorido. Alças reforçadas em azul royal, etiqueta couro costurada. Cada peça é única e irrepetível.",
+      "destaque": true,
+      "foto": "_xadrez",
+      "data": "2026-05-01"
+    },
+    {
+      "id": "p002",
+      "nome": "Bolsa Listras Festivas",
+      "secao": "bolsas",
+      "preco": 169.90,
+      "descricao": "Grande tote bag com listras verticais em tecido de balão — laranja, verde, azul marinho, amarelo, rosa e azul céu. Alças de sisal natural trançado. Comporta livros, praia e o dia a dia.",
+      "destaque": true,
+      "foto": "_listras",
+      "data": "2026-05-01"
+    },
+    {
+      "id": "p003",
+      "nome": "Necessaire Arco-Íris",
+      "secao": "necessaires",
+      "preco": 89.90,
+      "descricao": "Necessaire com zíper dourado, confeccionada em retalhos de balão nas cores do arco-íris. Forro interno impermeável. Perfeita para viagens.",
+      "destaque": false,
+      "foto": "",
+      "data": "2026-04-20"
+    }
+  ],
+  "artigos": [
+    {
+      "id": "a001",
+      "titulo": "O tecido que voa: a história do balão junino",
+      "resumo": "Como o nylon vibrante das festas populares se transforma em peças de moda artesanal únicas no ateliê de Boituva.",
+      "conteudo": "O balão caipira é parte indissociável da cultura popular do interior paulista. Em Boituva, cidade que também é a Capital Nacional do Paraquedismo, os balões têm uma relação especial com o céu. É desse contexto que nasce a Da Paz Ateliê — transformando os retalhos coloridos do nylon de balão em bolsas, necessaires e acessórios únicos, costurados à mão com amor e identidade.",
+      "foto": "_loja2",
+      "data": "2026-05-01"
+    }
+  ],
+  "conceito": {
+    "titulo": "Da Paz Ateliê",
+    "subtitulo": "Arte que voa com você",
+    "texto": "Nascemos da paixão pelo artesanato e pela cultura popular brasileira. Cada bolsa, cada necessaire que criamos carrega a alegria das festas juninas, a leveza do balão que sobe e a riqueza das mãos que confeccionam com cuidado. Não fazemos para multidões — fazemos para quem reconhece o valor do único, do feito à mão, do afeto costurado em cada ponto.",
+    "valores": [
+      "Artesanato 100% autêntico",
+      "Edição limitada — peças únicas",
+      "Retalhos de balão junino",
+      "Feito à mão em Boituva, SP"
+    ]
+  },
+  "versao": "202605051200"
+}

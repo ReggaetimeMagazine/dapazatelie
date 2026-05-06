@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Da Paz Ateliê</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c-laranja:#F4742B;--c-verde:#1DB954;--c-azul:#0E2480;
+  --c-amarelo:#F7CC1A;--c-rosa:#E8356D;--c-ceu:#3AB4E8;
+  --c-escuro:#1C1008;--c-marrom:#5A3820;
+  --c-bg:#F4F1ED;--c-card:#fff;--c-border:rgba(28,16,8,.1);
+  --c-muted:rgba(28,16,8,.45);
+  --sidebar:220px;
+  --stripe:linear-gradient(90deg,var(--c-laranja) 0 14.28%,var(--c-verde) 14.28% 28.56%,var(--c-azul) 28.56% 42.84%,var(--c-amarelo) 42.84% 57.12%,var(--c-rosa) 57.12% 71.4%,var(--c-ceu) 71.4% 85.68%);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--c-bg);color:var(--c-escuro);min-height:100vh;display:flex}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar);background:var(--c-escuro);
+  position:fixed;top:0;left:0;bottom:0;
+  display:flex;flex-direction:column;z-index:100;overflow-y:auto;
+}
+.sb-stripe{height:5px;background:var(--stripe)}
+.sb-logo{
+  padding:1.4rem 1.2rem 1rem;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.sb-logo h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.3rem;letter-spacing:.05em;color:#fff;line-height:1.1;
+}
+.sb-logo h1 em{color:var(--c-amarelo);font-style:normal}
+.sb-logo small{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.sb-nav{flex:1;padding:.8rem 0}
+.sb-group{
+  font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.25);padding:.9rem 1.2rem .3rem;
+}
+.sb-link{
+  display:flex;align-items:center;gap:.65rem;
+  padding:.6rem 1.2rem;
+  color:rgba(255,255,255,.5);font-size:.83rem;
+  cursor:pointer;border-left:3px solid transparent;
+  text-decoration:none;transition:all .15s;user-select:none;
+}
+.sb-link:hover,.sb-link.active{
+  color:#fff;background:rgba(255,255,255,.05);
+  border-left-color:var(--c-amarelo);
+}
+.sb-link .ic{font-size:.95rem;width:18px;text-align:center}
+.sb-footer{
+  padding:1rem 1.2rem;border-top:1px solid rgba(255,255,255,.06);
+  font-size:.65rem;color:rgba(255,255,255,.2);letter-spacing:.04em;
+}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+
+.topbar{
+  background:var(--c-card);border-bottom:1.5px solid var(--c-border);
+  height:58px;padding:0 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:50;
+}
+.tb-title{font-size:.9rem;font-weight:600;letter-spacing:.01em}
+.tb-actions{display:flex;gap:.6rem}
+
+.content{padding:1.8rem 2rem;flex:1}
+
+/* PAGES */
+.page{display:none}.page.active{display:block}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.8rem}
+.stat{
+  background:var(--c-card);border-radius:6px;padding:1.2rem 1.4rem;
+  border:1.5px solid var(--c-border);border-top:4px solid;
+}
+.stat:nth-child(1){border-top-color:var(--c-laranja)}
+.stat:nth-child(2){border-top-color:var(--c-verde)}
+.stat:nth-child(3){border-top-color:var(--c-azul)}
+.stat:nth-child(4){border-top-color:var(--c-rosa)}
+.stat-lbl{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--c-muted);margin-bottom:.3rem}
+.stat-val{font-size:2rem;font-weight:600;color:var(--c-escuro);line-height:1}
+
+/* CARD */
+.card{background:var(--c-card);border:1.5px solid var(--c-border);border-radius:6px;padding:1.4rem;margin-bottom:1.4rem}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}
+.card-title{font-size:.88rem;font-weight:600}
+
+/* BTNS */
+.btn{
+  font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;
+  letter-spacing:.03em;padding:.5rem 1.1rem;border:none;border-radius:4px;
+  cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:.35rem;
+}
+.btn-dk{background:var(--c-escuro);color:#fff}
+.btn-dk:hover{background:var(--c-marrom)}
+.btn-green{background:var(--c-verde);color:#fff}
+.btn-green:hover{filter:brightness(.9)}
+.btn-red{background:var(--c-rosa);color:#fff}
+.btn-red:hover{filter:brightness(.9)}
+.btn-out{background:transparent;border:1.5px solid var(--c-border);color:var(--c-muted)}
+.btn-out:hover{border-color:var(--c-escuro);color:var(--c-escuro)}
+.btn-yellow{background:var(--c-amarelo);color:var(--c-escuro);font-weight:600}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{
+  text-align:left;font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--c-muted);padding:.65rem .9rem;border-bottom:1.5px solid var(--c-border);
+  background:var(--c-bg);
+}
+td{padding:.75rem .9rem;border-bottom:1px solid var(--c-border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(0,0,0,.015)}
+
+/* BADGES */
+.bx{
+  display:inline-block;font-size:.62rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:.2rem .55rem;border-radius:3px;
+}
+.bx-dest{background:var(--c-rosa);color:#fff}
+.bx-secao{background:rgba(14,36,128,.08);color:var(--c-azul)}
+.bx-ok{background:rgba(29,185,84,.12);color:#0a6e2c}
+
+/* SUBTABS */
+.subtabs{
+  display:flex;border-bottom:1.5px solid var(--c-border);margin-bottom:1.4rem;
+}
+.stab{
+  font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;
+  padding:.6rem 1.2rem;border:none;background:none;
+  color:var(--c-muted);cursor:pointer;
+  border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .15s;
+}
+.stab.active,.stab:hover{color:var(--c-escuro);border-bottom-color:var(--c-escuro)}
+
+/* FORM */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fg{display:flex;flex-direction:column;gap:.35rem}
+.fg.full{grid-column:1/-1}
+label{font-size:.68rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--c-muted)}
+input,textarea,select{
+  font-family:'DM Sans',sans-serif;font-size:.88rem;
+  padding:.55rem .75rem;border:1.5px solid var(--c-border);
+  border-radius:4px;background:#fff;color:var(--c-escuro);
+  transition:border-color .15s;width:100%;
+}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--c-azul)}
+textarea{resize:vertical;min-height:80px}
+.ck-row{flex-direction:row;align-items:center;gap:.5rem;cursor:pointer}
+.ck-row input{width:auto}
+
+/* EXPORT */
+.export-hero{
+  background:var(--c-escuro);border-radius:6px;padding:2.5rem;text-align:center;color:#fff;
+}
+.export-hero h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.04em;margin-bottom:.4rem}
+.export-hero p{font-size:.84rem;opacity:.55;line-height:1.6;margin-bottom:1.8rem}
+.export-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
+code{
+  background:rgba(255,255,255,.07);padding:.15rem .5rem;
+  border-radius:3px;font-size:.78rem;font-family:monospace;
+}
+
+pre{
+  font-size:.73rem;overflow:auto;max-height:380px;
+  background:var(--c-bg);padding:1rem;border-radius:4px;
+  line-height:1.6;color:var(--c-escuro);border:1.5px solid var(--c-border);
+}
+
+/* VALORES EDITOR */
+.val-row{display:flex;gap:.5rem;align-items:center}
+.val-row input{flex:1}
+.val-rows{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem}
+
+/* NOTIFICATION */
+.toast{
+  position:fixed;bottom:1.5rem;right:1.5rem;
+  background:var(--c-escuro);color:#fff;
+  padding:.75rem 1.4rem;border-radius:5px;
+  font-size:.84rem;z-index:999;
+  transform:translateY(80px);opacity:0;transition:all .3s;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);
+  border-left:3px solid var(--c-amarelo);
+}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* IMAGE PREVIEW */
+.img-preview{
+  width:80px;height:80px;object-fit:cover;border-radius:4px;
+  border:1.5px solid var(--c-border);margin-top:.4rem;
+}
+.img-none{
+  width:80px;height:80px;border-radius:4px;
+  border:1.5px dashed var(--c-border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;background:var(--c-bg);margin-top:.4rem;
+}
+
+@media(max-width:768px){
+  .stats{grid-template-columns:1fr 1fr}
+  .fgrid{grid-template-columns:1fr}
+  .sidebar{transform:translateX(-100%)}
+  .main{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-stripe"></div>
+  <div class="sb-logo">
+    <h1>DA <em>PAZ</em> ATELIÊ</h1>
+    <small>Painel de Admin</small>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-group">Principal</div>
+    <a class="sb-link active" onclick="goto('dashboard',this)"><span class="ic">📊</span>Dashboard</a>
+    <a class="sb-link" onclick="goto('produtos',this)"><span class="ic">🧵</span>Produtos</a>
+    <a class="sb-link" onclick="goto('secoes',this)"><span class="ic">📂</span>Seções</a>
+    <a class="sb-link" onclick="goto('artigos',this)"><span class="ic">📝</span>Artigos</a>
+
+    <div class="sb-group">Conteúdo</div>
+    <a class="sb-link" onclick="goto('conceito',this)"><span class="ic">🎈</span>Conceito</a>
+    <a class="sb-link" onclick="goto('exportar',this)"><span class="ic">📤</span>Exportar JSON</a>
+
+    <div class="sb-group">Site</div>
+    <a class="sb-link" href="../index.html" target="_blank"><span class="ic">🌐</span>Ver site</a>
+  </div>
+  <div class="sb-footer">Admin local · GitHub Pages</div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <span class="tb-title" id="topbar-title">Dashboard</span>
+    <div class="tb-actions" id="topbar-actions"></div>
+  </div>
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats">
+        <div class="stat"><div class="stat-lbl">Produtos</div><div class="stat-val" id="s-prod">0</div></div>
+        <div class="stat"><div class="stat-lbl">Seções</div><div class="stat-val" id="s-sec">0</div></div>
+        <div class="stat"><div class="stat-lbl">Artigos</div><div class="stat-val" id="s-art">0</div></div>
+        <div class="stat"><div class="stat-lbl">Destaques</div><div class="stat-val" id="s-dest">0</div></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Últimos produtos</span>
+          <button class="btn btn-dk" onclick="goto('produtos',null)">Ver todos</button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Nome</th><th>Seção</th><th>Preço</th><th>Status</th></tr></thead>
+            <tbody id="dash-tb"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUTOS -->
+    <div class="page" id="page-produtos">
+      <div class="subtabs">
+        <button class="stab active" onclick="showSub('prod-lista',this)">Lista de produtos</button>
+        <button class="stab" onclick="showSub('prod-form',this);newProduto()">+ Novo produto</button>
+      </div>
+      <div id="prod-lista">
+        <div class="card">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Foto</th><th>Nome</th><th>Seção</th><th>Preço</th><th>Destaque</th><th>Ações</th></tr></thead>
+              <tbody id="tb-prod"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="prod-form" style="display:none">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title" id="fprod-title">Novo produto</span>
+          </div>
+          <input type="hidden" id="fp-id">
+          <div class="fgrid">
+            <div class="fg full"><label>Nome *</label><input id="fp-nome" placeholder="Ex: Bolsa Patchwork Arco-Íris"></div>
+            <div class="fg"><label>Seção *</label><select id="fp-secao"></select></div>
+            <div class="fg"><label>Preço R$ *</label><input type="number" id="fp-preco" step=".01" min="0" placeholder="0.00"></div>
+            <div class="fg full"><label>Descrição</label><textarea id="fp-desc" rows="3" placeholder="Descreva a peça, materiais, dimensões, acabamentos…"></textarea></div>
+            <div class="fg full">
+              <label>URL da foto</label>
+              <input id="fp-foto" placeholder="https://… ou deixe vazio" oninput="previewFoto()">
+              <div id="fp-foto-preview" class="img-none">📷</div>
+            </div>
+            <div class="fg full"><label class="ck-row"><input type="checkbox" id="fp-dest"> Destacar este produto</label></div>
+          </div>
+          <div style="display:flex;gap:.7rem;margin-top:1.2rem">
+            <button class="btn btn-green" onclick="saveProduto()">💾 Salvar produto</button>
+            <button class="btn btn-out" onclick="showSub('prod-lista',null)">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÕES -->
+    <div class="page" id="page-secoes">
+      <div class="subtabs">
+        <button class="stab active" onclick="showSub('sec-lista',this)">Lista de seções</button>
+        <button class="stab" onclick="showSub('sec-form',this);newSecao()">+ Nova seção</button>
+      </div>
+      <div id="sec-lista">
+        <div class="card">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Nome</th><th>Descrição</th><th>Ordem</th><th>Produtos</th><th>Ações</th></tr></thead>
+              <tbody id="tb-sec"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="sec-form" style="display:none">
+        <div class="card">
+          <div class="card-head"><span class="card-title" id="fsec-title">Nova seção</span></div>
+          <input type="hidden" id="fs-id">
+          <div class="fgrid">
+            <div class="fg"><label>Nome *</label><input id="fs-nome" placeholder="Ex: Bolsas"></div>
+            <div class="fg"><label>Ordem</label><input type="number" id="fs-ordem" value="1" min="1"></div>
+            <div class="fg full"><label>Descrição</label><input id="fs-desc" placeholder="Descrição curta desta seção"></div>
+          </div>
+          <div style="display:flex;gap:.7rem;margin-top:1.2rem">
+            <button class="btn btn-green" onclick="saveSecao()">💾 Salvar seção</button>
+            <button class="btn btn-out" onclick="showSub('sec-lista',null)">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTIGOS -->
+    <div class="page" id="page-artigos">
+      <div class="subtabs">
+        <button class="stab active" onclick="showSub('art-lista',this)">Lista de artigos</button>
+        <button class="stab" onclick="showSub('art-form',this);newArtigo()">+ Novo artigo</button>
+      </div>
+      <div id="art-lista">
+        <div class="card">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Título</th><th>Resumo</th><th>Data</th><th>Ações</th></tr></thead>
+              <tbody id="tb-art"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="art-form" style="display:none">
+        <div class="card">
+          <div class="card-head"><span class="card-title" id="fart-title">Novo artigo</span></div>
+          <input type="hidden" id="fa-id">
+          <div class="fgrid">
+            <div class="fg full"><label>Título *</label><input id="fa-titulo" placeholder="Título do artigo"></div>
+            <div class="fg full"><label>Resumo (exibido na listagem)</label><textarea id="fa-resumo" rows="2" placeholder="Breve resumo…"></textarea></div>
+            <div class="fg full"><label>Conteúdo completo</label><textarea id="fa-conteudo" rows="7" placeholder="Texto completo do artigo…"></textarea></div>
+            <div class="fg"><label>URL da foto</label><input id="fa-foto" placeholder="https://…"></div>
+            <div class="fg"><label>Data</label><input type="date" id="fa-data"></div>
+          </div>
+          <div style="display:flex;gap:.7rem;margin-top:1.2rem">
+            <button class="btn btn-green" onclick="saveArtigo()">💾 Salvar artigo</button>
+            <button class="btn btn-out" onclick="showSub('art-lista',null)">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONCEITO -->
+    <div class="page" id="page-conceito">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Página de Conceito & Marca</span>
+          <button class="btn btn-green" onclick="saveConceito()">💾 Salvar</button>
+        </div>
+        <div class="fgrid">
+          <div class="fg full"><label>Título da marca</label><input id="cc-titulo" placeholder="Da Paz Ateliê"></div>
+          <div class="fg full"><label>Tagline / subtítulo</label><input id="cc-sub" placeholder="Arte que voa com você"></div>
+          <div class="fg full"><label>Texto principal (conceito)</label><textarea id="cc-texto" rows="7" placeholder="Descreva a filosofia e origem da marca…"></textarea></div>
+        </div>
+        <div style="margin-top:1.2rem">
+          <label style="font-size:.68rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--c-muted);display:block;margin-bottom:.5rem">Valores da marca</label>
+          <div class="val-rows" id="val-rows"></div>
+          <button class="btn btn-out" style="margin-top:.6rem;font-size:.74rem" onclick="addValor()">+ Adicionar valor</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPORTAR -->
+    <div class="page" id="page-exportar">
+      <div class="export-hero">
+        <div style="font-size:3rem;margin-bottom:.8rem">📤</div>
+        <h3>Exportar produtos.json</h3>
+        <p>
+          Clique em <strong>Baixar JSON</strong>, mova o arquivo para<br>
+          <code>data/produtos.json</code><br>
+          na pasta do site, depois execute o <code>subir_novo.bat</code>
+        </p>
+        <div class="export-btns">
+          <button class="btn btn-yellow" style="font-size:.88rem;padding:.8rem 2rem" onclick="exportJSON()">⬇️ Baixar produtos.json</button>
+          <button class="btn btn-out" style="color:#fff;border-color:rgba(255,255,255,.2);font-size:.88rem;padding:.8rem 1.6rem" onclick="previewJSON()">👁 Preview</button>
+        </div>
+      </div>
+      <div class="card" style="margin-top:1.4rem;display:none" id="preview-box">
+        <div class="card-head">
+          <span class="card-title">Preview JSON</span>
+          <button class="btn btn-out" onclick="document.getElementById('preview-box').style.display='none'">✕</button>
+        </div>
+        <pre id="json-pre"></pre>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════
+   STATE
+══════════════════════ */
+let DB = {
+  secoes:[],produtos:[],artigos:[],
+  conceito:{titulo:'Da Paz Ateliê',subtitulo:'Arte que voa com você',texto:'',valores:[]}
+};
+
+/* ══════════════════════
+   INDEXEDDB
+══════════════════════ */
+let idb;
+const IDB='DaPazAdminV2';
+
+async function openIDB(){
+  return new Promise((res,rej)=>{
+    const r=indexedDB.open(IDB,1);
+    r.onupgradeneeded=e=>e.target.result.createObjectStore('s');
+    r.onsuccess=e=>{idb=e.target.result;res()};
+    r.onerror=rej;
+  });
+}
+async function save(){
+  return new Promise((res,rej)=>{
+    const tx=idb.transaction('s','readwrite');
+    tx.objectStore('s').put(JSON.parse(JSON.stringify(DB)),'main');
+    tx.oncomplete=res;tx.onerror=rej;
+  });
+}
+async function load(){
+  return new Promise((res,rej)=>{
+    const tx=idb.transaction('s','readonly');
+    const r=tx.objectStore('s').get('main');
+    r.onsuccess=e=>res(e.target.result);r.onerror=rej;
+  });
+}
+
+/* ══════════════════════
+   INIT
+══════════════════════ */
+async function init(){
+  await openIDB();
+  const saved=await load();
+  if(saved){
+    DB=saved;
+  } else {
+    try{
+      const r=await fetch('../data/produtos.json?v='+Date.now());
+      const d=await r.json();
+      DB.secoes=d.secoes||[];DB.produtos=d.produtos||[];
+      DB.artigos=d.artigos||[];DB.conceito=d.conceito||DB.conceito;
+      await save();
+    }catch(e){console.log('Iniciando vazio')}
+  }
+  renderAll();
+}
+
+function renderAll(){
+  renderDash();renderProdTb();renderSecTb();renderArtTb();renderConceitoForm();
+}
+
+/* ══════════════════════
+   NAV
+══════════════════════ */
+function goto(page,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  if(el){
+    document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+    el.classList.add('active');
+  }
+  const titles={dashboard:'Dashboard',produtos:'Produtos',secoes:'Seções',artigos:'Artigos',conceito:'Conceito da Marca',exportar:'Exportar JSON'};
+  document.getElementById('topbar-title').textContent=titles[page]||page;
+}
+
+function showSub(id,btn){
+  const parent=document.getElementById(id).parentElement;
+  Array.from(parent.children).forEach(c=>{if(c.id)c.style.display='none'});
+  document.getElementById(id).style.display='';
+  if(btn){
+    btn.closest('.subtabs').querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
+
+/* ══════════════════════
+   DASHBOARD
+══════════════════════ */
+function renderDash(){
+  document.getElementById('s-prod').textContent=DB.produtos.length;
+  document.getElementById('s-sec').textContent=DB.secoes.length;
+  document.getElementById('s-art').textContent=DB.artigos.length;
+  document.getElementById('s-dest').textContent=DB.produtos.filter(p=>p.destaque).length;
+  const recent=[...DB.produtos].slice(-6).reverse();
+  const tb=document.getElementById('dash-tb');
+  tb.innerHTML=recent.map(p=>{
+    const s=DB.secoes.find(s=>s.id===p.secao);
+    return `<tr>
+      <td><strong>${p.nome}</strong></td>
+      <td><span class="bx bx-secao">${s?s.nome:p.secao}</span></td>
+      <td>R$ ${p.preco.toFixed(2).replace('.',',')}</td>
+      <td>${p.destaque?'<span class="bx bx-dest">Destaque</span>':'—'}</td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="4" style="text-align:center;opacity:.4;padding:2rem">Nenhum produto ainda</td></tr>';
+}
+
+/* ══════════════════════
+   PRODUTOS
+══════════════════════ */
+function renderProdTb(){
+  const tb=document.getElementById('tb-prod');
+  tb.innerHTML=DB.produtos.map((p,i)=>{
+    const s=DB.secoes.find(s=>s.id===p.secao);
+    const imgHtml=p.foto&&p.foto.startsWith('http')
+      ?`<img src="${p.foto}" class="img-preview" alt="">`
+      :`<div class="img-none" style="width:44px;height:44px;font-size:1rem">🎈</div>`;
+    return `<tr>
+      <td>${imgHtml}</td>
+      <td><strong>${p.nome}</strong></td>
+      <td><span class="bx bx-secao">${s?s.nome:p.secao}</span></td>
+      <td>R$ ${p.preco.toFixed(2).replace('.',',')}</td>
+      <td>${p.destaque?'<span class="bx bx-dest">Sim</span>':'—'}</td>
+      <td>
+        <div style="display:flex;gap:.4rem">
+          <button class="btn btn-out" style="padding:.3rem .7rem;font-size:.73rem" onclick="editProduto(${i})">✏️ Editar</button>
+          <button class="btn btn-red" style="padding:.3rem .6rem;font-size:.73rem" onclick="delProduto(${i})">🗑️</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="6" style="text-align:center;opacity:.4;padding:2rem">Nenhum produto cadastrado</td></tr>';
+}
+
+function fillSecaoSelect(){
+  const sel=document.getElementById('fp-secao');
+  sel.innerHTML=DB.secoes.map(s=>`<option value="${s.id}">${s.nome}</option>`).join('');
+}
+
+function previewFoto(){
+  const v=document.getElementById('fp-foto').value.trim();
+  const el=document.getElementById('fp-foto-preview');
+  if(v.startsWith('http')){
+    el.innerHTML=`<img src="${v}" class="img-preview" onerror="this.parentElement.innerHTML='<div class=img-none style=width:80px;height:80px>❌</div>'">`;
+    el.className='';
+  } else {
+    el.className='img-none';el.textContent='📷';
+  }
+}
+
+function newProduto(){
+  document.getElementById('fprod-title').textContent='Novo produto';
+  ['fp-id','fp-nome','fp-preco','fp-desc','fp-foto'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fp-dest').checked=false;
+  document.getElementById('fp-foto-preview').className='img-none';
+  document.getElementById('fp-foto-preview').textContent='📷';
+  fillSecaoSelect();
+}
+
+function editProduto(i){
+  const p=DB.produtos[i];
+  document.getElementById('fprod-title').textContent='Editar produto';
+  document.getElementById('fp-id').value=p.id;
+  document.getElementById('fp-nome').value=p.nome;
+  document.getElementById('fp-preco').value=p.preco;
+  document.getElementById('fp-desc').value=p.descricao||'';
+  document.getElementById('fp-foto').value=p.foto&&p.foto.startsWith('http')?p.foto:'';
+  document.getElementById('fp-dest').checked=!!p.destaque;
+  fillSecaoSelect();
+  document.getElementById('fp-secao').value=p.secao;
+  previewFoto();
+  showSub('prod-form',null);
+  document.querySelectorAll('#page-produtos .stab')[1].click();
+}
+
+async function saveProduto(){
+  const id=document.getElementById('fp-id').value;
+  const nome=document.getElementById('fp-nome').value.trim();
+  const preco=parseFloat(document.getElementById('fp-preco').value);
+  if(!nome||isNaN(preco)){toast('⚠️ Preencha nome e preço');return;}
+  const prod={
+    id:id||'p'+Date.now(),
+    nome,preco,
+    secao:document.getElementById('fp-secao').value,
+    descricao:document.getElementById('fp-desc').value.trim(),
+    foto:document.getElementById('fp-foto').value.trim(),
+    destaque:document.getElementById('fp-dest').checked,
+    data:new Date().toISOString().split('T')[0]
+  };
+  if(id){const idx=DB.produtos.findIndex(p=>p.id===id);if(idx>=0)DB.produtos[idx]=prod;}
+  else DB.produtos.push(prod);
+  await save();renderAll();toast('✅ Produto salvo!');showSub('prod-lista',null);
+}
+
+async function delProduto(i){
+  if(!confirm('Excluir este produto?'))return;
+  DB.produtos.splice(i,1);await save();renderAll();toast('🗑️ Produto removido');
+}
+
+/* ══════════════════════
+   SEÇÕES
+══════════════════════ */
+function renderSecTb(){
+  const tb=document.getElementById('tb-sec');
+  tb.innerHTML=DB.secoes.map((s,i)=>{
+    const count=DB.produtos.filter(p=>p.secao===s.id).length;
+    return `<tr>
+      <td><strong>${s.nome}</strong></td>
+      <td style="color:var(--c-muted)">${s.descricao||'—'}</td>
+      <td>${s.ordem}</td>
+      <td><span class="bx bx-ok">${count} peça${count!==1?'s':''}</span></td>
+      <td>
+        <div style="display:flex;gap:.4rem">
+          <button class="btn btn-out" style="padding:.3rem .7rem;font-size:.73rem" onclick="editSecao(${i})">✏️ Editar</button>
+          <button class="btn btn-red" style="padding:.3rem .6rem;font-size:.73rem" onclick="delSecao(${i})">🗑️</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="5" style="text-align:center;opacity:.4;padding:2rem">Nenhuma seção</td></tr>';
+}
+
+function newSecao(){
+  document.getElementById('fsec-title').textContent='Nova seção';
+  ['fs-id','fs-nome','fs-desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fs-ordem').value=DB.secoes.length+1;
+}
+
+function editSecao(i){
+  const s=DB.secoes[i];
+  document.getElementById('fsec-title').textContent='Editar seção';
+  document.getElementById('fs-id').value=s.id;
+  document.getElementById('fs-nome').value=s.nome;
+  document.getElementById('fs-desc').value=s.descricao||'';
+  document.getElementById('fs-ordem').value=s.ordem;
+  showSub('sec-form',null);
+  document.querySelectorAll('#page-secoes .stab')[1].click();
+}
+
+async function saveSecao(){
+  const id=document.getElementById('fs-id').value;
+  const nome=document.getElementById('fs-nome').value.trim();
+  if(!nome){toast('⚠️ Digite o nome');return;}
+  const sec={
+    id:id||nome.toLowerCase().replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,''),
+    nome,descricao:document.getElementById('fs-desc').value.trim(),
+    ordem:parseInt(document.getElementById('fs-ordem').value)||1
+  };
+  if(id){const idx=DB.secoes.findIndex(s=>s.id===id);if(idx>=0)DB.secoes[idx]=sec;}
+  else DB.secoes.push(sec);
+  await save();renderAll();toast('✅ Seção salva!');showSub('sec-lista',null);
+}
+
+async function delSecao(i){
+  if(!confirm('Excluir esta seção?'))return;
+  DB.secoes.splice(i,1);await save();renderAll();toast('🗑️ Seção removida');
+}
+
+/* ══════════════════════
+   ARTIGOS
+══════════════════════ */
+function renderArtTb(){
+  const tb=document.getElementById('tb-art');
+  tb.innerHTML=DB.artigos.map((a,i)=>`<tr>
+    <td><strong>${a.titulo}</strong></td>
+    <td style="color:var(--c-muted);font-size:.8rem;max-width:220px">${(a.resumo||'').substring(0,70)}…</td>
+    <td style="white-space:nowrap;color:var(--c-muted)">${a.data||'—'}</td>
+    <td>
+      <div style="display:flex;gap:.4rem">
+        <button class="btn btn-out" style="padding:.3rem .7rem;font-size:.73rem" onclick="editArtigo(${i})">✏️</button>
+        <button class="btn btn-red" style="padding:.3rem .6rem;font-size:.73rem" onclick="delArtigo(${i})">🗑️</button>
+      </div>
+    </td>
+  </tr>`).join('')||'<tr><td colspan="4" style="text-align:center;opacity:.4;padding:2rem">Nenhum artigo</td></tr>';
+}
+
+function newArtigo(){
+  document.getElementById('fart-title').textContent='Novo artigo';
+  ['fa-id','fa-titulo','fa-resumo','fa-conteudo','fa-foto'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fa-data').value=new Date().toISOString().split('T')[0];
+}
+
+function editArtigo(i){
+  const a=DB.artigos[i];
+  document.getElementById('fart-title').textContent='Editar artigo';
+  document.getElementById('fa-id').value=a.id;
+  document.getElementById('fa-titulo').value=a.titulo;
+  document.getElementById('fa-resumo').value=a.resumo||'';
+  document.getElementById('fa-conteudo').value=a.conteudo||'';
+  document.getElementById('fa-foto').value=a.foto||'';
+  document.getElementById('fa-data').value=a.data||'';
+  showSub('art-form',null);
+  document.querySelectorAll('#page-artigos .stab')[1].click();
+}
+
+async function saveArtigo(){
+  const id=document.getElementById('fa-id').value;
+  const titulo=document.getElementById('fa-titulo').value.trim();
+  if(!titulo){toast('⚠️ Digite o título');return;}
+  const art={
+    id:id||'a'+Date.now(),titulo,
+    resumo:document.getElementById('fa-resumo').value.trim(),
+    conteudo:document.getElementById('fa-conteudo').value.trim(),
+    foto:document.getElementById('fa-foto').value.trim(),
+    data:document.getElementById('fa-data').value
+  };
+  if(id){const idx=DB.artigos.findIndex(a=>a.id===id);if(idx>=0)DB.artigos[idx]=art;}
+  else DB.artigos.push(art);
+  await save();renderAll();toast('✅ Artigo salvo!');showSub('art-lista',null);
+}
+
+async function delArtigo(i){
+  if(!confirm('Excluir?'))return;
+  DB.artigos.splice(i,1);await save();renderAll();toast('🗑️ Removido');
+}
+
+/* ══════════════════════
+   CONCEITO
+══════════════════════ */
+function renderConceitoForm(){
+  document.getElementById('cc-titulo').value=DB.conceito.titulo||'';
+  document.getElementById('cc-sub').value=DB.conceito.subtitulo||'';
+  document.getElementById('cc-texto').value=DB.conceito.texto||'';
+  renderValRows();
+}
+
+function renderValRows(){
+  const el=document.getElementById('val-rows');
+  el.innerHTML=(DB.conceito.valores||[]).map((v,i)=>`
+    <div class="val-row">
+      <input type="text" value="${v.replace(/"/g,'&quot;')}" onchange="DB.conceito.valores[${i}]=this.value">
+      <button class="btn btn-red" style="padding:.3rem .6rem;font-size:.75rem" onclick="rmValor(${i})">✕</button>
+    </div>`).join('');
+}
+
+function addValor(){
+  if(!DB.conceito.valores)DB.conceito.valores=[];
+  DB.conceito.valores.push('');renderValRows();
+}
+function rmValor(i){DB.conceito.valores.splice(i,1);renderValRows();}
+
+async function saveConceito(){
+  DB.conceito.titulo=document.getElementById('cc-titulo').value.trim();
+  DB.conceito.subtitulo=document.getElementById('cc-sub').value.trim();
+  DB.conceito.texto=document.getElementById('cc-texto').value.trim();
+  await save();toast('✅ Conceito salvo!');
+}
+
+/* ══════════════════════
+   EXPORT
+══════════════════════ */
+function buildJSON(){
+  return {
+    secoes:DB.secoes,produtos:DB.produtos,artigos:DB.artigos,
+    conceito:DB.conceito,
+    versao:new Date().toISOString().replace(/\D/g,'').substring(0,12)
+  };
+}
+
+function exportJSON(){
+  const blob=new Blob([JSON.stringify(buildJSON(),null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download='produtos.json';a.click();
+  toast('⬇️ Baixado! Mova para data/ e rode o .bat');
+}
+
+function previewJSON(){
+  document.getElementById('json-pre').textContent=JSON.stringify(buildJSON(),null,2);
+  document.getElementById('preview-box').style.display='';
+}
+
+/* ══════════════════════
+   TOAST
+══════════════════════ */
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3200);
+}
+
+init();
+</script>
+</body>
+</html>
