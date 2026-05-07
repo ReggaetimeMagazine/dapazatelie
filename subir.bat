@@ -2,7 +2,7 @@
 cd /d "C:\Users\coyot\Desktop\dapaz modas"
 
 echo ===================================
-echo SUBINDO PRO GITHUB (REGGAETIME)
+echo SUBINDO PRO GITHUB
 echo ===================================
 
 IF NOT EXIST ".git" (
@@ -11,7 +11,6 @@ IF NOT EXIST ".git" (
     git remote add origin https://github.com/ReggaetimeMagazine/dapazatelie.git
     git branch -M main
 ) ELSE (
-    echo Atualizando remote...
     git remote set-url origin https://github.com/ReggaetimeMagazine/dapazatelie.git
 )
 
