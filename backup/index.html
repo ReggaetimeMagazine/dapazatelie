@@ -12,29 +12,6 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://reggaetimemagazine.github.io/dapazatelie/">
 <link rel="canonical" href="https://reggaetimemagazine.github.io/dapazatelie/">
-
-<!-- Favicon inline (não precisa de arquivo extra) -->
-<script>
-(function(){
-  var ico=document.createElement('link');
-  ico.rel='icon';ico.type='image/png';
-  // ICO_32 vem de img/fotos.js — injetado depois, fallback SVG primeiro
-  var svgFav='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="4" fill="%231F1A13"/><rect x="0" y="0" width="11" height="11" fill="%23F4742B"/><rect x="11" y="0" width="10" height="11" fill="%231DB954"/><rect x="21" y="0" width="11" height="11" fill="%231B3FA0"/><rect x="0" y="11" width="11" height="10" fill="%23F7CC1A"/><rect x="11" y="11" width="10" height="10" fill="%23E8356D"/><rect x="21" y="11" width="11" height="10" fill="%233AB4E8"/><rect x="0" y="21" width="11" height="11" fill="%237B3FA0"/><rect x="11" y="21" width="10" height="11" fill="%23F4742B"/><rect x="21" y="21" width="11" height="11" fill="%231DB954"/></svg>';
-  ico.href='data:image/svg+xml,'+svgFav;
-  document.head.appendChild(ico);
-  // apple touch icon
-  var apl=document.createElement('link');apl.rel='apple-touch-icon';
-  document.head.appendChild(apl);
-  window._aplIco=apl;
-})();
-</script>
-
-<!-- OG image dinâmica — sobrescrita pelo JSON -->
-<meta property="og:image" content="https://reggaetimemagazine.github.io/dapazatelie/img/icon.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:image" content="https://reggaetimemagazine.github.io/dapazatelie/img/icon.png">
-
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Da Paz Ateliê","description":"Ateliê artesanal em Boituva SP. Bolsas e acessórios feitos com retalhos de balão de balonismo.","url":"https://reggaetimemagazine.github.io/dapazatelie/","telephone":"+5511986668246","address":{"@type":"PostalAddress","addressLocality":"Boituva","addressRegion":"SP","addressCountry":"BR"},"sameAs":["https://instagram.com/dapaz.costuras"]}</script>
 <!-- Google Analytics: troque G-XXXXXXXXXX pelo seu ID -->
 <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -281,21 +258,7 @@ footer>.f-brand>p{font-family:var(--fs);font-style:italic;font-size:.9rem;font-w
 .artpage-body{font-family:var(--fs);font-size:1.12rem;font-weight:300;line-height:1.9;color:var(--ink)}
 .artpage-body p{margin-bottom:1.2rem}
 
-/* SHARE BUTTONS */
-.share-bar{display:flex;align-items:center;gap:.5rem;margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(13,11,8,.08)}
-.share-label{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-right:.2rem}
-.share-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s;flex-shrink:0}
-.share-btn:hover{transform:scale(1.12);box-shadow:0 4px 14px rgba(0,0,0,.18)}
-.share-btn svg{display:block}
-.share-wpp{background:#25D366}
-.share-copy{background:var(--ink2)}
-.share-toast{
-  position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--ink2);color:#fff;font-size:.78rem;padding:.55rem 1.2rem;
-  border-radius:20px;opacity:0;transition:all .3s;pointer-events:none;z-index:900;
-  white-space:nowrap;
-}
-.share-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* RESPONSIVE */
 @media(max-width:900px){
   nav{padding:0 1.2rem}.nav-links{display:none}.ham{display:flex}
   .hero{grid-template-columns:1fr}.hero-r{height:62vw}
@@ -375,14 +338,14 @@ footer>.f-brand>p{font-family:var(--fs);font-style:italic;font-size:.9rem;font-w
 <section class="sec" id="colecao">
   <div class="col-top">
     <div>
-      <div class="sec-lbl rv">Coleção</div>
+      <div class="sec-lbl rv">Catálogo</div>
       <h2 class="sec-h rv d1">PEÇAS<br>ÚNICAS</h2>
       <p class="sec-sub rv d2">Cada retalho tem história. Cada bolsa, uma alma.</p>
     </div>
     <div class="filter-wrap rv d3">
-      <span class="filter-label">Filtrar por categoria</span>
+      <span class="filter-label">Por categoria</span>
       <div class="filter-row" id="sec-tabs"></div>
-      <span class="filter-label" style="margin-top:.4rem">Filtrar por coleção</span>
+      <span class="filter-label" style="margin-top:.4rem">Por coleção</span>
       <div class="filter-row" id="col-tabs"></div>
     </div>
   </div>
@@ -497,15 +460,6 @@ footer>.f-brand>p{font-family:var(--fs);font-style:italic;font-size:.9rem;font-w
     <div class="artpage-date" id="ap-date"></div>
     <h1 class="artpage-title" id="ap-title"></h1>
     <div class="artpage-body" id="ap-body"></div>
-    <div class="share-bar" style="margin-top:2rem;padding-top:1.5rem">
-      <span class="share-label">Compartilhar</span>
-      <button class="share-btn share-wpp" title="WhatsApp" onclick="shareWpp('artigo')">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg>
-      </button>
-      <button class="share-btn share-copy" title="Copiar link" onclick="shareLink('artigo')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      </button>
-    </div>
     <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(13,11,8,.1)">
       <a class="btn-gold" href="#" onclick="closeArtPage();return false">← Ver todas as histórias</a>
     </div>
@@ -536,32 +490,11 @@ footer>.f-brand>p{font-family:var(--fs);font-style:italic;font-size:.9rem;font-w
         <a href="#" class="btn-wpp-m" id="m-wpp" target="_blank">💬 Pedir via WhatsApp</a>
         <button class="btn-cl" onclick="closeM()">Fechar</button>
       </div>
-      <div class="share-bar">
-        <span class="share-label">Compartilhar</span>
-        <button class="share-btn share-wpp" id="m-share-wpp" title="WhatsApp" onclick="shareWpp('produto')">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg>
-        </button>
-        <button class="share-btn share-copy" id="m-share-copy" title="Copiar link" onclick="shareLink('produto')">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        </button>
-      </div>
     </div>
   </div>
 </div>
 
 <script src="img/fotos.js"></script>
-<script>
-// Apply real favicon from logo
-(function(){
-  if(typeof ICO_32!=='undefined'){
-    var links=document.querySelectorAll('link[rel="icon"]');
-    links.forEach(l=>l.href=ICO_32);
-  }
-  if(typeof ICO_180!=='undefined'&&window._aplIco){
-    window._aplIco.href=ICO_180;
-  }
-})();
-</script>
 <script>
 const CORES=['#F4742B','#1DB954','#1B3FA0','#F7CC1A','#E8356D','#3AB4E8','#7B3FA0'];
 const VPCOL=['#F7CC1A','#1DB954','#E8356D','#3AB4E8','#F4742B'];
@@ -616,12 +549,6 @@ async function loadData(){
     _S=d.secoes||[];_P=d.produtos||[];_A=d.artigos||[];
     _COL=d.colecoes||[];_C=d.conceito||null;
     if(d.config)_CFG=d.config;
-    // apply OG image from config
-    if(_CFG&&_CFG.ogImage){
-      document.querySelectorAll('meta[property="og:image"],meta[name="twitter:image"]').forEach(m=>m.content=_CFG.ogImage);
-    } else if(typeof OG_DEFAULT!=='undefined'){
-      document.querySelectorAll('meta[property="og:image"],meta[name="twitter:image"]').forEach(m=>m.content=OG_DEFAULT);
-    }
     // apply config
     const wn=_CFG.whatsapp||'5511986668246';
     document.getElementById('nav-wpp').href='https://wa.me/'+wn;
@@ -738,7 +665,6 @@ function renderArtigos(){
 
 /* article page */
 function openArtPage(a){
-  _curArt=a;
   const src=imgSrc(a.foto);
   const imgEl=document.getElementById('ap-img');
   if(src){imgEl.src=src;imgEl.style.objectPosition=a.fotoPos||'center center';imgEl.style.display='block'}
@@ -767,7 +693,6 @@ function showHome(){
 let _curFotos=[];
 
 function openM(p){
-  _curProd=p;
   const fotos=p.fotos&&p.fotos.length?p.fotos:(p.foto?[{src:p.foto,pos:'center center'}]:[]);
   _curFotos=fotos;
   renderModalGal(fotos,0);
@@ -834,48 +759,7 @@ function obs(){
   document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el));
 }
 
-/* ── SHARE ── */
-let _curProd=null, _curArt=null;
-const SITE_URL='https://reggaetimemagazine.github.io/dapazatelie/';
-
-function showShareToast(msg){
-  const t=document.getElementById('share-toast');
-  t.textContent=msg||'Link copiado!';
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
-}
-
-function shareWpp(tipo){
-  let txt='';
-  if(tipo==='produto'&&_curProd){
-    txt=encodeURIComponent('🎈 *'+_curProd.nome+'* — R$ '+_curProd.preco.toFixed(2).replace('.',',')+'\n\nVi no site Da Paz Ateliê!\n'+SITE_URL+'#colecao');
-  } else if(tipo==='artigo'&&_curArt){
-    txt=encodeURIComponent('✂️ *'+_curArt.titulo+'*\n\n'+(_curArt.resumo||'')+'\n\nLeia no site Da Paz Ateliê!\n'+SITE_URL+'#artigos');
-  } else {
-    txt=encodeURIComponent('Confira a Da Paz Ateliê — bolsas artesanais exclusivas de Boituva, SP!\n'+SITE_URL);
-  }
-  window.open('https://api.whatsapp.com/send?text='+txt,'_blank');
-}
-
-function shareLink(tipo){
-  let url=SITE_URL;
-  let msg='Link copiado!';
-  if(tipo==='produto'&&_curProd){url=SITE_URL+'#colecao';msg='Link da coleção copiado!';}
-  if(tipo==='artigo'&&_curArt){url=SITE_URL+'#artigos';msg='Link do artigo copiado!';}
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(url).then(()=>showShareToast(msg));
-  } else {
-    const t=document.createElement('textarea');
-    t.value=url;document.body.appendChild(t);t.select();
-    document.execCommand('copy');document.body.removeChild(t);
-    showShareToast(msg);
-  }
-}
-
 loadData();obs();
 </script>
-
-<!-- Share toast -->
-<div class="share-toast" id="share-toast">Link copiado!</div>
 </body>
 </html>

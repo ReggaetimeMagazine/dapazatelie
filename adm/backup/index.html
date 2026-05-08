@@ -411,17 +411,6 @@ pre{font-size:.7rem;overflow:auto;max-height:320px;background:var(--bg);padding:
           <div class="f"><label>WhatsApp (com DDI+DDD)</label><input type="text" id="cfg-wpp" placeholder="5511986668246"></div>
           <div class="f"><label>Instagram (sem @)</label><input type="text" id="cfg-ig" placeholder="dapaz.costuras"></div>
           <div class="f full"><label>Cidade</label><input type="text" id="cfg-ci" placeholder="Boituva, SP"></div>
-          <div class="f full">
-            <label>Imagem de compartilhamento (aparece quando alguém compartilha o link)</label>
-            <p style="font-size:.72rem;color:var(--mu);margin:.25rem 0 .5rem;line-height:1.5">Esta imagem aparece no WhatsApp, Instagram, Facebook quando o link do site é compartilhado. Recomendado: 1200x630px.</p>
-            <div style="display:flex;gap:.8rem;align-items:flex-start;flex-wrap:wrap">
-              <div id="og-prev" style="width:120px;height:63px;border-radius:var(--r);border:1px solid var(--bdr);background:var(--ivory);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">🖼️</div>
-              <div style="flex:1;display:flex;flex-direction:column;gap:.4rem">
-                <input type="file" id="og-file" accept="image/*" onchange="uplOG()">
-                <input type="text" id="cfg-og" placeholder="URL da imagem ou deixe vazio para usar o logo" oninput="pvOG()">
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -890,31 +879,12 @@ function rCfgForm(){
   document.getElementById('cfg-wpp').value=DB.config.whatsapp||'';
   document.getElementById('cfg-ig').value=DB.config.instagram||'';
   document.getElementById('cfg-ci').value=DB.config.cidade||'';
-  // OG image
-  const ogv=DB.config.ogImage||'';
-  document.getElementById('cfg-og').value=ogv.startsWith('data:')?'':ogv;
-  const src=rsrc(ogv)||(ogv.startsWith('data:')?ogv:null)||(typeof OG_DEFAULT!=='undefined'?OG_DEFAULT:null);
-  if(src)setPreview('og-prev',src);
 }
 async function svCfg(){
   DB.config.whatsapp=document.getElementById('cfg-wpp').value.trim();
   DB.config.instagram=document.getElementById('cfg-ig').value.trim();
   DB.config.cidade=document.getElementById('cfg-ci').value.trim();
-  // OG image — keep base64 if already set, or use text URL
-  const ogUrl=document.getElementById('cfg-og').value.trim();
-  if(ogUrl) DB.config.ogImage=ogUrl;
-  // (base64 already stored via uplOG)
   await saveDB();T('Config salva!');
-}
-function uplOG(){
-  const file=document.getElementById('og-file').files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{DB.config.ogImage=e.target.result;setPreview('og-prev',e.target.result);document.getElementById('cfg-og').value='';T('Imagem carregada — clique em Salvar')};
-  reader.readAsDataURL(file);
-}
-function pvOG(){
-  const v=document.getElementById('cfg-og').value.trim();
-  setPreview('og-prev',rsrc(v)||v||null);
 }
 
 /* EXPORT */
